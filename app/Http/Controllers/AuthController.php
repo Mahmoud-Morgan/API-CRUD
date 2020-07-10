@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class ApiController extends Controller
+class AuthController extends Controller
 {   
 
     /**

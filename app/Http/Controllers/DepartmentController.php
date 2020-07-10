@@ -51,7 +51,7 @@ class DepartmentController extends Controller
             $department->save();
             
             $data['success'] = true;
-            $data['message'] = 'department '.$department->name.' stored successfuly';
+            $data['message'] = 'department '.$department->name.' stored successfuly with id = '.$department->id;
             return response()->json($data);
 
         }catch(\Exception $e) {
@@ -71,9 +71,9 @@ class DepartmentController extends Controller
     public function show($id)
     {
         try{
-            $where              = array('id' => $id);
+            
             $data['success']    = true;
-            $data['department'] = Department::where($where)->first(['id','name']);
+            $data['department'] = Department::where(['id' => $id])->first(['id','name']);
             if($data['department'] == null)throw new Exception();
             return response()->json($data);
 
