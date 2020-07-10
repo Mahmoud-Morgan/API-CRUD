@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 Route::post('login', 'ApiController@login');
 Route::post('register', 'ApiController@register');
@@ -24,5 +21,9 @@ Route::post('register', 'ApiController@register');
 Route::group(['middleware' =>['auth:api']],function () {
     Route::get('logout', 'ApiController@logout');
     Route::get('user', 'ApiController@getAuthUser');
-    
+    Route::get('departments','DepartmentController@index'); 
+    Route::get('departments/{id}','DepartmentController@show'); 
+    Route::post('departments','DepartmentController@store'); 
+    Route::put('departments/{id}','DepartmentController@update'); 
+    Route::delete('departments/{id}','DepartmentController@destroy');
 });
