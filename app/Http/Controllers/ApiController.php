@@ -28,23 +28,18 @@ class ApiController extends Controller
      * @return [type]
      */
     public function register(RegisterAuthRequest $request)
-    {   
-        //start transaction
-        DB::beginTransaction();
+    {          
         try{
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
+            $user           = new User();
+            $user->name     = $request->name;
+            $user->email    = $request->email;
             $user->password = bcrypt($request->password);
             $user->save();
-            DB::commit();
             return $this->login($request); 
         }catch(\Exception $e){
-            DB::rollback();
-            return response()->json([
-            'success' => false,
-            'message' => 'registration error :'.$e->getMessage(),
-            ], Response::HTTP_Unprocessable_Entity); //422
+            $data['success'] = false;
+            $data['message'] = 'registration error :'.$e->getMessage();
+            return response()->json($data); 
         }
     }
 
@@ -55,20 +50,18 @@ class ApiController extends Controller
      */
     public function login(Request $request)
     {
-        $input = $request->only('email', 'password');
+        $input     = $request->only('email', 'password');
         $jwt_token = null;
  
         if (!$jwt_token = JWTAuth::attempt($input)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid Email or Password',
-            ], Response::HTTP_UNAUTHORIZED);
+            $data['success'] = false;
+            $data['message'] = 'Invalid Email or Password';
+            return response()->json($data);  
         }
- 
-        return response()->json([
-            'success' => true,
-            'token' => $jwt_token,
-        ]);
+        
+        $data['success'] = true;
+        $data['token'] = $jwt_token;
+        return response()->json($data);
     }
 
     /**
@@ -76,11 +69,9 @@ class ApiController extends Controller
      */
     public function logout() {
         auth()->logout();
-
-        return response()->json([
-        	'success' => true,
-        	'message' => 'User successfully signed out'
-        ], Response::HTTP_OK);
+        $data['success'] = true;
+        $data['message'] = 'User successfully signed out';
+        return response()->json($data);
     }
 
 
@@ -91,11 +82,9 @@ class ApiController extends Controller
      */
     public function getAuthUser(Request $request)
     {
-        
-        return response()->json([
-            'success' => true,
-            'user_info' => auth()->user()           
-        ], Response::HTTP_OK);
+        $data['success'] = true;
+        $data['user_info'] = auth()->user();
+        return response()->json($data);
     }
 
 }
