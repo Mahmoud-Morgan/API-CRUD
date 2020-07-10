@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Exception;
 
 class RegisterAuthRequest extends FormRequest
 {
@@ -23,12 +24,21 @@ class RegisterAuthRequest extends FormRequest
      */
     public function rules()
     {
-
+        
         return [
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8|max:10'
         ];
-        
+       
     }
+
+    // public function messages()
+    // {
+    //     return [
+    //         'email.required' => 'Email is required!',
+    //         'name.required' => 'Name is required!',
+    //         'password.required' => 'Password is required!'
+    //     ];
+    // }
 }
