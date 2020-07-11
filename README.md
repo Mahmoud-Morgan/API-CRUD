@@ -23,7 +23,7 @@
 - view      => get(../departments/{id}): get spasific depaartment by id.
 - create    => post(../departments): store new "unique" department ('name'=>value).
 - update    => put(../departments/{id}): update spasific department by id to new unique name ('name'=>value).
--delete     => delete(../departments): delete spasific department by id.
+- delete     => delete(../departments): delete spasific department by id.
 
 #### install-localy
 - use php & mysql server ex.(xampp).
